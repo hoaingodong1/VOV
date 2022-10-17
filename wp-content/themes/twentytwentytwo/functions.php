@@ -30,6 +30,22 @@ if ( ! function_exists( 'twentytwentytwo_support' ) ) :
 	}
 
 endif;
+function hl_CreatDatabaseProducts(){
+	global $wpdb;
+	$charsetCollate = $wpdb->get_charset_collate();
+	$productTable = $wpdb->prefix . 'product';
+	$createproductTable = "CREATE TABLE IF NOT EXISTS {$productTable} (
+		id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+		name varchar(255) NOT NULL,
+		img varchar(20) NULL,
+		price varchar(255) NULL,
+		PRIMARY KEY (id)
+	) {$charsetCollate};";
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	dbDelta( $createproductTable );
+}
+
+add_action('init', 'hl_CreatDatabaseProducts');
 
 add_action( 'after_setup_theme', 'twentytwentytwo_support' );
 
